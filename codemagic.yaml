@@ -1,0 +1,17 @@
+workflows:
+  android-workflow:
+    name: Android Build
+    instance_type: linux
+    max_build_duration: 120
+    environment:
+      java: default
+    triggering:
+      events:
+        - push
+    scripts:
+      - name: Build
+        script: |
+          chmod +x ./gradlew
+          ./gradlew build
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
