@@ -1,0 +1,28 @@
+name: Generate Gradle Wrapper
+
+on:
+  workflow_dispatch
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Generate Gradle wrapper
+      run: gradle wrapper
+
+    - name: Commit and push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .gradle* gradlew gradlew.bat gradle/
+        git commit -m "Add Gradle wrapper" || echo "No changes to commit"
+        git push
